@@ -34,15 +34,14 @@ get_header(); ?>
 			    			<div class="thumbnail">
 			    				<?php the_post_thumbnail('thumbnail'); ?>
 			    			</div>
-			    			<h5><?php the_title(); ?>
-			    				<span>
-			    				<?php $date = DateTime::createFromFormat('Ymd', get_field('year'));
+			    			<h5><?php the_title(); ?></h5>
+			    			<p>
+			    				Year: <?php $date = DateTime::createFromFormat('Ymd', get_field('year'));
 			    				echo $date->format('Y'); ?>
-			    				</span>
-			    			</h5>
-			    			<p><?php the_field('target_audience'); ?></p>
-			    			<p><?php the_field('theme'); ?></p>
-			    			<p><?php the_field('language'); ?></p>
+			    				</p>
+			    			<p>Target Audience: <?php the_field('target_audience'); ?></p>
+			    			<p>Theme: <?php the_field('theme'); ?></p>
+			    			<p>Language: <?php the_field('language'); ?></p>
 			    			<p><a href="<?php the_field('pdf_or_jpg'); ?>" target='_blank'>Download Resource</a></p>
 			    		</div><!-- thumbtitle -->
 			    	</div>	<!-- end panel -->
