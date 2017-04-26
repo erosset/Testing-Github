@@ -28,7 +28,7 @@ get_header(); ?>
 
 			    <?php $document = new WP_Query(array('post_type' => 'document')); ?>
 			    <?php while($document->have_posts()) : $document->the_post(); ?>
-			    <div class="large-6 columns">
+			    <div class="large-4 medium-4 columns">
 			    	<div class="panel">
 			    		<div class="thumbtitle group">
 			    			<div class="thumbnail">
@@ -43,6 +43,9 @@ get_header(); ?>
 			    			<p>Theme: <?php the_field('theme'); ?></p>
 			    			<p>Language: <?php the_field('language'); ?></p>
 			    			<p><a href="<?php the_field('pdf_or_jpg'); ?>" target='_blank'>Download Resource</a></p>
+
+			    			
+
 			    		</div><!-- thumbtitle -->
 			    	</div>	<!-- end panel -->
 			    </div>	<!-- end large-6 -->
@@ -55,5 +58,6 @@ get_header(); ?>
 		</div> <!-- end #inner-content -->
 
 	</div> <!-- end #content -->
+
 
 <?php get_footer(); ?>
