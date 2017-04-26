@@ -328,3 +328,18 @@ to display none.
   .respond-form,
   nav {
     display: none; } }
+
+
+/*********************
+DOCUMENTS PAGE STYLE
+*********************/
+
+.group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+
+
