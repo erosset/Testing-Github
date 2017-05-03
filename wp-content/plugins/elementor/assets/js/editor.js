@@ -1,4 +1,4 @@
-/*! elementor - v1.4.4 - 20-04-2017 */
+/*! elementor - v1.4.5 - 30-04-2017 */
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var HandleAddDuplicateBehavior;
 
@@ -1921,6 +1921,8 @@ App = Marionette.Application.extend( {
 
 		this.initComponents();
 
+		this.channels.dataEditMode.reply( 'activeMode', 'edit' );
+
 		this.listenTo( this.channels.dataEditMode, 'switch', this.onEditModeSwitched );
 
 		this.setWorkSaver();
@@ -2015,10 +2017,14 @@ App = Marionette.Application.extend( {
 		this.enqueueTypographyFonts();
 		//this.introduction.startOnLoadIntroduction(); // TEMP Removed
 
+		this.onEditModeSwitched();
+
 		this.trigger( 'preview:loaded' );
 	},
 
-	onEditModeSwitched: function( activeMode ) {
+	onEditModeSwitched: function() {
+		var activeMode = this.channels.dataEditMode.request( 'activeMode' );
+
 		if ( 'edit' === activeMode ) {
 			this.exitPreviewMode();
 		} else {
@@ -2290,15 +2296,16 @@ EditModeItemView = Marionette.ItemView.extend( {
 	},
 
 	onRender: function() {
-		this.onPreviewButtonChange();
+		this.onEditModeChanged();
 	},
 
 	onPreviewButtonChange: function() {
 		elementor.changeEditMode( this.getCurrentMode() );
 	},
 
-	onEditModeChanged: function( activeMode ) {
-		var title = elementor.translate( 'preview' === activeMode ? 'back_to_editor' : 'preview' );
+	onEditModeChanged: function() {
+		var activeMode = elementor.channels.dataEditMode.request( 'activeMode' ),
+			title = elementor.translate( 'preview' === activeMode ? 'back_to_editor' : 'preview' );
 
 		this.ui.previewLabel.attr( 'title', title );
 		this.ui.previewLabelA11y.text( title );
@@ -9066,7 +9073,9 @@ ControlWysiwygItemView = ControlBaseItemView.extend( {
 
 		tinyMCEPreInit.mceInit[ self.editorID ] = _.extend( _.clone( tinyMCEPreInit.mceInit.elementorwpeditor ), editorConfig );
 
-		self.rearrangeButtons();
+		if ( ! elementor.config.tinymceHasCustomConfig ) {
+			self.rearrangeButtons();
+		}
 	},
 
 	attachElContent: function() {
