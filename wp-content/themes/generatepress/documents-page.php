@@ -7,13 +7,13 @@
 */
 
 
-get_header(); ?>
+get_header(); ?><?php the_content(); ?>
 	
 	<div id="content">
 	
 		<div id="inner-content" class="row">
 	
-		    <main id="main" class="large-12 medium-12 columns" role="main">
+		    <main id="main" class="grid-100" role="main">
 				
 				<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
@@ -29,8 +29,29 @@ get_header(); ?>
 			    <?php $document = new WP_Query(array('post_type' => 'document')); ?>
 			    <?php while($document->have_posts()) : $document->the_post(); ?>
 
+<div class="grid-25 grid-parent">
+  <div class="grid-100">
+   <div class="thumbtitle group">
+			    			<div class="thumbnail">
+			    				<?php the_post_thumbnail('thumbnail'); ?>
+			    			</div>
+			    			<small><?php the_field( 'material_type' ); ?></small>
+			    			<h5><?php the_title(); ?></h5>
+			    			<small><i class="fa fa-globe"></i> <?php the_field('language'); ?> | 
+			    				 <?php $date = DateTime::createFromFormat('Ymd', get_field('year'));
+			    				echo $date->format('Y'); ?>
+			    				</small>
+			    			
+			    			
+			    			<p><a href="<?php the_field('pdf_or_jpg'); ?>" target='_blank'>Download Resource</a></p>
+
+			    			
+
+			    		</div><!-- thumbtitle --> <div class="clear"></div>
+  </div>
+</div>
 			    	
-			    <div class="large-4 medium-4 columns">
+			    <!--<div class="large-4 medium-4 columns">
 			    	<div class="panel">
 			    		<div class="thumbtitle group">
 			    			<div class="thumbnail">
@@ -49,8 +70,8 @@ get_header(); ?>
 			    			
 
 			    		</div><!-- thumbtitle -->
-			    	</div>	<!-- end panel -->
-			    </div>	<!-- end large-6 -->
+			   <!-- 	</div>-->	<!-- end panel -->
+			  <!--  </div>	--><!-- end large-6 -->
 			    <?php endwhile; ?>		
 			    					
 			</main> <!-- end #main -->
